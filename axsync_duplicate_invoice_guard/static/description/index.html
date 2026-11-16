@@ -1,0 +1,211 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0; border-bottom: 1px solid #dee2e6;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <img src="axsync_icon.png" class="img img-fluid" alt="AXSync" style="margin: 0 0 10px 0;"/>
+        </div>
+        <div class="col-md-10">
+          <p class="text-muted" style="margin: 0; font-size: 14px;">AXSync | Odoo 18.0 | Accounting</p>
+          <h1 style="margin: 5px 0 10px 0; font-size: 36px;">AXSync Duplicate Invoice Guard</h1>
+          <h3 class="text-muted" style="margin: 0 0 15px 0;">Stop duplicate vendor bills and customer invoices before they are posted.</h3>
+          <p style="font-size: 17px;">Detect duplicates by partner, reference, amount and source document, warn or block at posting, and keep every decision in a review queue with a dashboard.</p>
+          <p><strong>Value in one line:</strong> it checks each bill and invoice against what is already in your books, explains why it looks like a duplicate, and makes someone decide before money moves.</p>
+          <p><span class="badge badge-primary">Odoo 18.0</span> <span class="badge badge-secondary">Invoicing</span> <span class="badge badge-secondary">No extra Python libraries</span></p>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+          <img src="axsync_screenshot_1.png" class="img img-fluid" alt="Dashboard with case tiles, oldest open cases and partners with the most cases" style="border: 1px solid #dee2e6;"/>
+          <p class="text-muted" style="margin: 5px 0 0 0; font-size: 13px;">The Duplicate Guard dashboard on Odoo 18.0, shown with demo data for fictional companies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">The Business Problems</h2>
+      <p>Duplicate documents are usually small mistakes with expensive results. They are hard to see because every document looks valid on its own.</p>
+      <div class="row">
+        <div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>The same bill is paid twice</h5><p class="text-muted" style="margin: 0;">A supplier resends an invoice, someone re-enters it, and the second payment goes out before anyone notices.</p></div></div></div><div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>References are typed differently</h5><p class="text-muted" style="margin: 0;">INV-0001, inv 1 and INV/001 look different to a strict match but are the same document.</p></div></div></div><div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>Customers are invoiced twice</h5><p class="text-muted" style="margin: 0;">A sales order or delivery gets invoiced again, and the customer calls.</p></div></div></div><div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>Warnings are easy to ignore</h5><p class="text-muted" style="margin: 0;">A banner on the form does not stop a posting and leaves no record of what was decided.</p></div></div></div><div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>Nobody owns the follow-up</h5><p class="text-muted" style="margin: 0;">Suspected duplicates are found by chance and rarely tracked to a conclusion.</p></div></div></div><div class="col-md-4" style="margin-bottom: 15px;"><div class="card"><div class="card-body"><h5>Month-end clean-up is manual</h5><p class="text-muted" style="margin: 0;">Finding duplicates after the fact means filters, exports and spreadsheets.</p></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">The Solution</h2>
+      <p>The module checks a document when it is posted and again in a daily scan. Each possible duplicate becomes a case with a confidence level and the reasons behind it, so a person can confirm it or clear it.</p>
+      <table class="table table-bordered">
+        <thead class="thead-light"><tr><th>Problem</th><th>How the module addresses it</th></tr></thead>
+        <tbody>
+          <tr><td>Duplicate payments</td><td>Optional block at posting, from the confidence level you choose.</td></tr>
+          <tr><td>Different reference formats</td><td>References are normalised before they are compared.</td></tr>
+          <tr><td>Customer invoices</td><td>The same checks apply to customer invoices and credit notes.</td></tr>
+          <tr><td>Ignored warnings</td><td>Blocked documents need Post Anyway with a written reason, restricted to accounting managers.</td></tr>
+          <tr><td>No follow-up</td><td>A review queue with dismiss and confirm actions and a full history.</td></tr>
+          <tr><td>Clean-up of old data</td><td>Scan any date range, or let the daily scan do it.</td></tr>
+        </tbody>
+      </table>
+      <p>Standard Odoo already shows a warning for some duplicates. This module goes further: it can stop the posting, matches more patterns, records the decision and reports on it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Feature Breakdown</h2>
+
+      <h4 style="margin-top: 20px;">1. Smart matching</h4>
+      <p>Documents are compared by commercial partner, reference, amount in the same currency, source document and date. Reference matching ignores case, spaces, symbols and leading zeros. Each match carries a confidence level (high, medium or low) and the reasons in plain words.</p>
+
+      <h4 style="margin-top: 20px;">2. Posting guard</h4>
+      <p>Choose Warn only or Block posting, and the confidence from which to block. When several documents are posted at once and one is blocked, none is posted, with a message that lists the documents involved.</p>
+
+      <h4 style="margin-top: 20px;">3. Post Anyway with a reason</h4>
+      <p>Accounting managers can override a block. A reason is required and is stored on the case and in the chatter of the document.</p>
+
+      <h4 style="margin-top: 20px;">4. Review queue</h4>
+      <p>Open cases with the document, partner, amount, confidence, reasons and number of matches. Mark a case as Not a Duplicate or Confirm Duplicate, add a note, reopen it later. The history shows who decided and when.</p>
+
+      <h4 style="margin-top: 20px;">5. Dashboard</h4>
+      <p>Cases to review, amount under review, high confidence cases, confirmed duplicates and their value, documents posted anyway, cases cleared and the confirmation rate, plus the oldest open cases and the partners with the most cases.</p>
+
+      <h4 style="margin-top: 20px;">6. Daily scan and date-range scan</h4>
+      <p>A scheduled action reviews recent documents every day, and a wizard scans any date range. Scans can be repeated safely: the same case is never created twice, and cases whose document was cancelled are closed.</p>
+
+      <h4 style="margin-top: 20px;">7. On the form where you work</h4>
+      <p>A red or yellow alert on the bill or invoice lists the matching documents and why. A Possible Duplicates button opens them.</p>
+
+      <h4 style="margin-top: 20px;">8. Settings per company</h4>
+      <p>Switch vendor and customer checks, each match rule, the reference and amount windows, comparison with drafts, the daily scan and its look-back, independently for every company.</p>
+
+      <h4 style="margin-top: 20px;">9. Reports and export</h4>
+      <p>List, pivot and graph views with filters and group-by on confidence, partner, type and status. Use the standard Export action or Download xlsx in the pivot.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Screenshots</h2>
+      <p class="text-muted">All screenshots come from the module running on Odoo 18.0 with demo data for fictional companies.</p>
+      <h5 style="margin-top: 25px;">1. Duplicate Guard dashboard</h5><img src="axsync_screenshot_1.png" class="img img-fluid" alt="Dashboard with case tiles, oldest open cases and partners with the most cases" style="border: 1px solid #dee2e6;"/><h5 style="margin-top: 25px;">2. Review queue</h5><img src="axsync_screenshot_2.png" class="img img-fluid" alt="Review queue with confidence, reasons and matched documents" style="border: 1px solid #dee2e6;"/><h5 style="margin-top: 25px;">3. Blocked posting on a vendor bill</h5><img src="axsync_screenshot_3.png" class="img img-fluid" alt="Draft vendor bill with a red blocked alert and the Possible Duplicates button" style="border: 1px solid #dee2e6;"/><h5 style="margin-top: 25px;">4. Post Anyway with a required reason</h5><img src="axsync_screenshot_4.png" class="img img-fluid" alt="Post Anyway dialog asking for a reason" style="border: 1px solid #dee2e6;"/><h5 style="margin-top: 25px;">5. Settings</h5><img src="axsync_screenshot_5.png" class="img img-fluid" alt="Duplicate Guard settings in Invoicing configuration" style="border: 1px solid #dee2e6;"/>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Business Benefits</h2>
+      <div class="row">
+        <div class="col-md-4"><h5>Fewer duplicate payments</h5><p class="text-muted">The second copy is caught before it is posted, not after it is paid.</p></div>
+        <div class="col-md-4"><h5>Clear reasons</h5><p class="text-muted">Every match says why it was flagged, so a decision takes seconds.</p></div>
+        <div class="col-md-4"><h5>An audit trail</h5><p class="text-muted">Who cleared, confirmed or overrode a case, and the reason they gave.</p></div>
+        <div class="col-md-4"><h5>Controlled overrides</h5><p class="text-muted">Only accounting managers can post a blocked document, and only with a reason.</p></div>
+        <div class="col-md-4"><h5>Easy to adopt</h5><p class="text-muted">Starts in warn mode. Move to block mode when you trust the results.</p></div>
+        <div class="col-md-4"><h5>Native workflow</h5><p class="text-muted">Works inside standard bills and invoices. No change to how people enter documents.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">How It Works</h2>
+      <ol>
+        <li><strong>Install the module.</strong> Install Duplicate Invoice Guard from the Apps menu.</li>
+        <li><strong>Review the settings.</strong> Open Invoicing &gt; Configuration &gt; Settings &gt; Duplicate Guard. The default is warn mode.</li>
+        <li><strong>Work as usual.</strong> Post bills and invoices normally. Matches are shown on the form and added to the queue.</li>
+        <li><strong>Run a first scan.</strong> Use Duplicate Guard &gt; Scan for Duplicates to check existing documents.</li>
+        <li><strong>Review the queue.</strong> Mark each case as Not a Duplicate or Confirm Duplicate.</li>
+        <li><strong>Switch to block mode</strong> when the results suit your data, and choose the confidence from which to block.</li>
+        <li><strong>Follow the dashboard.</strong> Watch the open cases, confirmed duplicates and overrides.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Compatibility and Requirements</h2>
+      <table class="table table-bordered">
+        <tbody>
+          <tr><th style="width: 30%;">Odoo version</th><td>18.0 only</td></tr>
+          <tr><th>Required Odoo apps</th><td>Invoicing (account).</td></tr>
+          <tr><th>Python libraries</th><td>None beyond Odoo itself.</td></tr>
+          <tr><th>Multi-company</th><td>Supported through record rules. Covered by an automated test.</td></tr>
+          <tr><th>Data and services</th><td>No external services. The module stores its cases and settings in your database.</td></tr>
+          <tr><th>Standard Odoo files</th><td>Not modified. The module extends bills and invoices through standard inheritance.</td></tr>
+        </tbody>
+      </table>
+      <h5>Known limitations</h5>
+      <ul>
+        <li>Documents are compared within one company, one partner, one side (vendor or customer) and one currency.</li>
+        <li>The guard runs when a document is posted. Documents posted by Odoo's own auto-post schedule are not blocked, but the daily scan lists them.</li>
+        <li>Matching on amount alone can flag legitimate recurring invoices. These are low confidence and are not blocked by default.</li>
+        <li>Match reasons are shown in English.</li>
+        <li>The dashboard shows the current company.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Frequently Asked Questions</h2>
+      <h5>Will it block my postings after installation?</h5>
+      <p>No. The default mode is warn. Documents are posted as usual and possible duplicates are added to the review queue. Switch to block mode in the settings when you are ready.</p>
+      <h5>How is this different from the standard Odoo duplicate warning?</h5>
+      <p>Odoo shows a warning for some duplicates. This module also matches formatted references, amounts and source documents, can block posting, requires a reason to override, keeps a review queue and reports on it.</p>
+      <h5>Does it check customer invoices too?</h5>
+      <p>Yes. Vendor bills and customer invoices, including credit notes, can each be switched on or off.</p>
+      <h5>What if a flagged document is legitimate?</h5>
+      <p>Mark the case as Not a Duplicate, or use Post Anyway with a reason if posting was blocked.</p>
+      <h5>Who can override a block?</h5>
+      <p>Users in the accounting manager group. A reason is mandatory.</p>
+      <h5>Can I scan documents that already exist?</h5>
+      <p>Yes. Use Scan for Duplicates for a date range. Scanning again never creates the same case twice.</p>
+      <h5>Does it support multiple companies?</h5>
+      <p>Yes. Settings and cases are per company and respect the user's allowed companies.</p>
+      <h5>Can I export the cases?</h5>
+      <p>Yes. Use the standard Export action on the list or Download xlsx in the pivot.</p>
+      <h5>How can I contact AXSync for support?</h5>
+      <p>Email <a href="mailto:hunain@axsync.com">hunain@axsync.com</a> or use the Contact the Author option on this Odoo Apps Store page.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0;">
+    <div class="container">
+      <h2 style="margin-bottom: 15px;">Support and Publisher</h2>
+      <p><strong>Published by AXSync</strong></p>
+      <p>Website: www.axsync.com</p>
+      <p>Support email: <a href="mailto:hunain@axsync.com">hunain@axsync.com</a></p>
+      <p>Please include your Odoo version, the module version, and what you expected to see. Screenshots help.</p>
+      <p class="text-muted" style="font-size: 13px;">This module is published by AXSync and is not an official Odoo product. Odoo is a trademark of Odoo S.A.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced" style="padding: 30px 0; background-color: #f8f9fa;">
+    <div class="container text-center">
+      <h2 style="margin-bottom: 10px;">Catch the Second Copy Before It Is Paid.</h2>
+      <p style="font-size: 17px;">Install AXSync Duplicate Invoice Guard and keep duplicate bills and invoices out of your books.</p>
+      <p><strong>www.axsync.com</strong></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_axsync_duplicate_case_user,axsync.duplicate.case billing,model_axsync_duplicate_case,account.group_account_invoice,1,1,1,0
+access_axsync_duplicate_case_manager,axsync.duplicate.case manager,model_axsync_duplicate_case,account.group_account_manager,1,1,1,1
+access_axsync_duplicate_resolve_wizard,axsync.duplicate.resolve.wizard billing,model_axsync_duplicate_resolve_wizard,account.group_account_invoice,1,1,1,1
+access_axsync_duplicate_scan_wizard,axsync.duplicate.scan.wizard billing,model_axsync_duplicate_scan_wizard,account.group_account_invoice,1,1,1,1
+access_axsync_duplicate_override_wizard,axsync.duplicate.override.wizard manager,model_axsync_duplicate_override_wizard,account.group_account_manager,1,1,1,1
