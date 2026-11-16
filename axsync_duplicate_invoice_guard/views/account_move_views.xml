@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="axsync_view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.axsync.duplicate.guard</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- One banner is enough: hide the standard one when Duplicate Guard has its own findings. -->
+            <xpath expr="(//div[contains(@invisible, 'duplicate')])[1]" position="attributes">
+                <attribute name="invisible" add="axsync_duplicate_count &gt; 0" separator=" or "/>
+            </xpath>
+            <xpath expr="(//div[contains(@invisible, 'duplicate')])[2]" position="attributes">
+                <attribute name="invisible" add="axsync_duplicate_count &gt; 0" separator=" or "/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_axsync_post_anyway" type="object" string="Post Anyway"
+                        groups="account.group_account_manager"
+                        invisible="state != 'draft' or not axsync_duplicate_blocking"/>
+            </xpath>
+            <xpath expr="/form/sheet" position="before">
+                <field name="axsync_duplicate_blocking" invisible="1"/>
+                <div class="alert alert-danger" role="alert"
+                     invisible="axsync_duplicate_count == 0 or not axsync_duplicate_blocking">
+                    <strong>Duplicate Guard: posting is blocked.</strong> This document looks like a duplicate of:
+                    <field name="axsync_duplicate_info" nolabel="1" class="d-block mt-1" style="white-space: pre-line;"/>
+                </div>
+                <div class="alert alert-warning" role="alert"
+                     invisible="axsync_duplicate_count == 0 or axsync_duplicate_blocking">
+                    <strong>Duplicate Guard:</strong> this document may be a duplicate of:
+                    <field name="axsync_duplicate_info" nolabel="1" class="d-block mt-1" style="white-space: pre-line;"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_axsync_view_duplicates" type="object" class="oe_stat_button" icon="fa-clone"
+                        invisible="axsync_duplicate_count == 0">
+                    <field name="axsync_duplicate_count" widget="statinfo" string="Possible Duplicates"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

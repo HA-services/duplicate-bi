@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="axsync_duplicate_menu_root" name="Duplicate Guard" parent="account.menu_finance"
+              sequence="25" groups="account.group_account_invoice"/>
+    <menuitem id="axsync_duplicate_menu_dashboard" name="Dashboard" parent="axsync_duplicate_menu_root"
+              action="axsync_duplicate_dashboard_action" sequence="1"/>
+    <menuitem id="axsync_duplicate_menu_review" name="Review Queue" parent="axsync_duplicate_menu_root"
+              action="axsync_duplicate_case_review_action" sequence="10"/>
+    <menuitem id="axsync_duplicate_menu_all" name="All Cases" parent="axsync_duplicate_menu_root"
+              action="axsync_duplicate_case_all_action" sequence="20"/>
+    <menuitem id="axsync_duplicate_menu_scan" name="Scan for Duplicates" parent="axsync_duplicate_menu_root"
+              action="axsync_duplicate_scan_wizard_action" sequence="30"/>
+</odoo>

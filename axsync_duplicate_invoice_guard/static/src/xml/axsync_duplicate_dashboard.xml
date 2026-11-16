@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="axsync_duplicate_invoice_guard.Dashboard">
+        <div class="o_action axsync_duplicate_dashboard overflow-auto">
+            <div class="d-flex align-items-center justify-content-between px-4 pt-4 pb-2">
+                <div>
+                    <h2 class="mb-0">Duplicate Guard</h2>
+                    <div class="text-muted">Possible duplicate vendor bills and customer invoices, and what happened to them</div>
+                </div>
+                <select class="form-select w-auto" t-on-change="this.onPeriodChange">
+                    <t t-foreach="this.periods" t-as="p" t-key="p.value">
+                        <option t-att-value="p.value" t-att-selected="p.value === this.state.days"><t t-esc="p.label"/></option>
+                    </t>
+                </select>
+            </div>
+            <t t-if="this.state.data">
+                <div class="row g-3 px-4 py-3">
+                    <t t-foreach="this.state.data.tiles" t-as="tile" t-key="tile.key">
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <div t-attf-class="card axsync_tile axsync_tile_#{tile.tone} h-100" role="button"
+                                 t-on-click="() => this.openTile(tile)">
+                                <div class="card-body">
+                                    <div class="axsync_tile_label"><t t-esc="tile.label"/></div>
+                                    <div class="axsync_tile_value"><t t-esc="this.formatValue(tile)"/></div>
+                                    <div class="axsync_tile_sub"><t t-esc="tile.sub"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div class="row g-3 px-4 pb-4">
+                    <div class="col-12 col-xl-6">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">Oldest cases waiting for review</span>
+                                <a href="#" t-on-click.prevent="this.openQueue">Review queue</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead><tr><th>Document</th><th>Partner</th><th class="text-end">Amount</th><th>Match</th><th class="text-end">Age</th></tr></thead>
+                                    <tbody>
+                                        <tr t-if="!this.state.data.oldest.length"><td colspan="5" class="text-muted text-center py-3">Nothing to review.</td></tr>
+                                        <tr t-foreach="this.state.data.oldest" t-as="r" t-key="r.id" role="button" t-on-click="() => this.openCase(r.id)">
+                                            <td><t t-esc="r.name"/></td>
+                                            <td><t t-esc="r.partner"/></td>
+                                            <td class="text-end"><t t-esc="this.formatAmount(r.amount)"/></td>
+                                            <td class="text-capitalize"><t t-esc="r.confidence"/></td>
+                                            <td class="text-end"><t t-esc="r.age"/> d</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                        <div class="card h-100">
+                            <div class="card-header fw-bold">Partners with the most cases (open and confirmed)</div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead><tr><th>Partner</th><th class="text-end">Cases</th><th class="text-end">Amount</th></tr></thead>
+                                    <tbody>
+                                        <tr t-if="!this.state.data.partners.length"><td colspan="3" class="text-muted text-center py-3">No cases yet.</td></tr>
+                                        <tr t-foreach="this.state.data.partners" t-as="r" t-key="r.id" role="button" t-on-click="() => this.openPartner(r.id)">
+                                            <td><t t-esc="r.partner"/></td>
+                                            <td class="text-end"><t t-esc="r.cases"/></td>
+                                            <td class="text-end"><t t-esc="this.formatAmount(r.amount)"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

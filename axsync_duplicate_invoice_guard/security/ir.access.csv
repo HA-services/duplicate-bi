@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+axsync_duplicate_case_billing,AXSync duplicate cases: billing users,axsync.duplicate.case,account.group_account_invoice,cru,
+axsync_duplicate_case_manager,AXSync duplicate cases: accounting managers,axsync.duplicate.case,account.group_account_manager,crud,
+axsync_duplicate_resolve_wizard,AXSync resolve wizard: billing users,axsync.duplicate.resolve.wizard,account.group_account_invoice,crud,
+axsync_duplicate_scan_wizard,AXSync scan wizard: billing users,axsync.duplicate.scan.wizard,account.group_account_invoice,crud,
+axsync_duplicate_override_wizard,AXSync override wizard: accounting managers,axsync.duplicate.override.wizard,account.group_account_manager,crud,
+axsync_duplicate_case_company_rule,AXSync duplicate cases: multi-company,axsync.duplicate.case,,crud,"[('company_id', 'in', company_ids + [False])]"

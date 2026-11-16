@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="axsync_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.axsync.duplicate.guard</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Duplicate Guard" name="axsync_duplicate_guard">
+                    <setting id="axsync_dup_enabled_setting"
+                             help="Detect duplicate vendor bills and customer invoices before they are posted.">
+                        <field name="axsync_dup_enabled"/>
+                        <div class="content-group" invisible="not axsync_dup_enabled">
+                            <div class="row mt16">
+                                <label for="axsync_dup_mode" class="col-lg-4 o_light_label"/>
+                                <field name="axsync_dup_mode"/>
+                            </div>
+                            <div class="row" invisible="axsync_dup_mode != 'block'">
+                                <label for="axsync_dup_block_level" class="col-lg-4 o_light_label"/>
+                                <field name="axsync_dup_block_level"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="axsync_dup_vendor" class="col-lg-4 o_light_label"/>
+                                <field name="axsync_dup_vendor"/>
+                            </div>
+                            <div class="row">
+                                <label for="axsync_dup_customer" class="col-lg-4 o_light_label"/>
+                                <field name="axsync_dup_customer"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="axsync_dup_rules_setting" invisible="not axsync_dup_enabled"
+                             help="Documents are only compared with other documents of the same partner, company and type.">
+                        <div class="content-group">
+                            <div class="row">
+                                <label for="axsync_dup_match_reference" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_match_reference"/>
+                            </div>
+                            <div class="row">
+                                <label for="axsync_dup_match_amount" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_match_amount"/>
+                            </div>
+                            <div class="row">
+                                <label for="axsync_dup_match_origin" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_match_origin"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="axsync_dup_reference_days" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_reference_days"/>
+                            </div>
+                            <div class="row">
+                                <label for="axsync_dup_amount_days" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_amount_days"/>
+                            </div>
+                            <div class="row">
+                                <label for="axsync_dup_include_drafts" class="col-lg-5 o_light_label"/>
+                                <field name="axsync_dup_include_drafts"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="axsync_dup_scan_setting" invisible="not axsync_dup_enabled"
+                             help="A daily scan reviews recent documents and adds possible duplicates to the review queue.">
+                        <field name="axsync_dup_auto_scan"/>
+                        <div class="content-group" invisible="not axsync_dup_auto_scan">
+                            <div class="row mt16">
+                                <label for="axsync_dup_scan_days" class="col-lg-4 o_light_label"/>
+                                <field name="axsync_dup_scan_days"/>
+                            </div>
+                        </div>
+                        <div class="mt8">
+                            <button name="action_axsync_scan_now" type="object" string="Scan Now" class="btn-secondary"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
