@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="axsync_duplicate_case_tree" model="ir.ui.view">
+        <field name="name">axsync.duplicate.case.tree</field>
+        <field name="model">axsync.duplicate.case</field>
+        <field name="arch" type="xml">
+            <list string="Duplicate Cases" create="0" decoration-danger="state == 'open' and confidence == 'high'"
+                  decoration-warning="state == 'open' and confidence != 'high'"
+                  decoration-muted="state in ('dismissed', 'duplicate')">
+                <header>
+                    <button name="action_dismiss" type="object" string="Not a Duplicate"/>
+                    <button name="action_confirm_duplicate" type="object" string="Confirm Duplicate"/>
+                </header>
+                <field name="name" string="Document"/>
+                <field name="partner_id"/>
+                <field name="move_type" optional="show"/>
+                <field name="invoice_date" optional="show"/>
+                <field name="amount_company" sum="Total"/>
+                <field name="confidence" widget="badge" decoration-danger="confidence == 'high'"
+                       decoration-warning="confidence == 'medium'" decoration-info="confidence == 'low'"/>
+                <field name="reasons"/>
+                <field name="matched_count" string="Matches" optional="show"/>
+                <field name="state" widget="badge" decoration-info="state == 'open'"
+                       decoration-success="state in ('dismissed', 'duplicate')" decoration-warning="state == 'overridden'"/>
+                <field name="move_state" optional="hide"/>
+                <field name="source" optional="hide"/>
+                <field name="resolved_by" optional="hide"/>
+                <field name="resolved_date" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="company_currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_form" model="ir.ui.view">
+        <field name="name">axsync.duplicate.case.form</field>
+        <field name="model">axsync.duplicate.case</field>
+        <field name="arch" type="xml">
+            <form string="Duplicate Case" create="0">
+                <header>
+                    <button name="action_dismiss" type="object" string="Not a Duplicate" class="btn-primary"
+                            invisible="state != 'open'"/>
+                    <button name="action_confirm_duplicate" type="object" string="Confirm Duplicate"
+                            invisible="state != 'open'"/>
+                    <button name="action_reopen" type="object" string="Reopen" invisible="state == 'open'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,dismissed,duplicate"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_move" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <div class="o_stat_info"><span class="o_stat_text">Open Document</span></div>
+                        </button>
+                        <button name="action_view_matches" type="object" class="oe_stat_button" icon="fa-clone">
+                            <field name="matched_count" widget="statinfo" string="Looks Like"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="move_type"/>
+                            <field name="move_state"/>
+                            <field name="ref"/>
+                            <field name="invoice_date"/>
+                            <field name="amount_company"/>
+                        </group>
+                        <group>
+                            <field name="confidence"/>
+                            <field name="reasons"/>
+                            <field name="source"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="resolved_by"/>
+                            <field name="resolved_date"/>
+                        </group>
+                    </group>
+                    <group string="Looks like">
+                        <field name="matched_move_ids" nolabel="1" colspan="2">
+                            <list>
+                                <field name="name"/>
+                                <field name="ref"/>
+                                <field name="invoice_date"/>
+                                <field name="amount_total"/>
+                                <field name="currency_id"/>
+                                <field name="state"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Note"><field name="note" nolabel="1" colspan="2"/></group>
+                    <field name="company_currency_id" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_search" model="ir.ui.view">
+        <field name="name">axsync.duplicate.case.search</field>
+        <field name="model">axsync.duplicate.case</field>
+        <field name="arch" type="xml">
+            <search string="Duplicate Cases">
+                <field name="name" string="Document"/>
+                <field name="partner_id"/>
+                <field name="ref"/>
+                <filter name="open" string="To Review" domain="[('state', '=', 'open')]"/>
+                <filter name="resolved" string="Resolved" domain="[('state', '!=', 'open')]"/>
+                <separator/>
+                <filter name="high" string="High Confidence" domain="[('confidence', '=', 'high')]"/>
+                <filter name="medium" string="Medium Confidence" domain="[('confidence', '=', 'medium')]"/>
+                <filter name="low" string="Low Confidence" domain="[('confidence', '=', 'low')]"/>
+                <separator/>
+                <filter name="vendor" string="Vendor Bills" domain="[('move_type', 'in', ('in_invoice', 'in_refund'))]"/>
+                <filter name="customer" string="Customer Invoices" domain="[('move_type', 'in', ('out_invoice', 'out_refund'))]"/>
+                <separator/>
+                <filter name="overridden" string="Posted Anyway" domain="[('state', '=', 'overridden')]"/>
+                <filter name="confirmed" string="Confirmed Duplicates" domain="[('state', '=', 'duplicate')]"/>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_confidence" string="Confidence" context="{'group_by': 'confidence'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'move_type'}"/>
+                    <filter name="group_month" string="Document Month" context="{'group_by': 'invoice_date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_pivot" model="ir.ui.view">
+        <field name="name">axsync.duplicate.case.pivot</field>
+        <field name="model">axsync.duplicate.case</field>
+        <field name="arch" type="xml">
+            <pivot string="Duplicate Cases">
+                <field name="partner_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount_company" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_graph" model="ir.ui.view">
+        <field name="name">axsync.duplicate.case.graph</field>
+        <field name="model">axsync.duplicate.case</field>
+        <field name="arch" type="xml">
+            <graph string="Duplicate Cases" type="bar">
+                <field name="invoice_date" interval="month"/>
+                <field name="state"/>
+                <field name="amount_company" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_review_action" model="ir.actions.act_window">
+        <field name="name">Review Queue</field>
+        <field name="res_model">axsync.duplicate.case</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="axsync_duplicate_case_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No duplicates to review</p>
+            <p>Documents that look like duplicates appear here after posting or after a scan.</p>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_case_all_action" model="ir.actions.act_window">
+        <field name="name">All Cases</field>
+        <field name="res_model">axsync.duplicate.case</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="axsync_duplicate_case_search"/>
+    </record>
+</odoo>

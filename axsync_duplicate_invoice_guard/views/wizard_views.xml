@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="axsync_duplicate_resolve_wizard_form" model="ir.ui.view">
+        <field name="name">axsync.duplicate.resolve.wizard.form</field>
+        <field name="model">axsync.duplicate.resolve.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Resolve Cases">
+                <group>
+                    <field name="case_ids" invisible="1"/>
+                    <field name="resolution" widget="radio"/>
+                    <field name="note" placeholder="Optional. Kept in the audit log."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_override_wizard_form" model="ir.ui.view">
+        <field name="name">axsync.duplicate.override.wizard.form</field>
+        <field name="model">axsync.duplicate.override.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Post Anyway">
+                <group>
+                    <field name="move_ids" invisible="1"/>
+                    <field name="summary" readonly="1" nolabel="1" colspan="2" style="white-space: pre-line;"/>
+                    <field name="note" placeholder="For example: second shipment, the supplier reused the number."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Post Anyway" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_scan_wizard_form" model="ir.ui.view">
+        <field name="name">axsync.duplicate.scan.wizard.form</field>
+        <field name="model">axsync.duplicate.scan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scan for Duplicates">
+                <p class="text-muted">
+                    Compare the vendor bills and customer invoices dated in this period with the other documents of
+                    the same partner and create a case for every possible duplicate.
+                </p>
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_scan" type="object" string="Scan" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="axsync_duplicate_scan_wizard_action" model="ir.actions.act_window">
+        <field name="name">Scan for Duplicates</field>
+        <field name="res_model">axsync.duplicate.scan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
